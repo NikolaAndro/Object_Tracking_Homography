@@ -71,7 +71,7 @@ while True:
         pts = np.float32([[0, 0], [0, height], [width, height], [width, 0]]).reshape(-1, 1, 2)
         dst = cv2.perspectiveTransform(pts, matrix) 
 
-        homography = cv2.polylines(frame, [np.int32(dst)], True, (255, 0, 0), 3)
+        homography = cv2.polylines(frame, [np.int32(dst)], True, (0, 255, 0), 3)
         cv2.imshow("Homography", homography)
     else:
         cv2.imshow("Homography", gray_frame)
