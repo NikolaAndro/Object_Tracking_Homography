@@ -26,5 +26,6 @@ As a second commandline argument provide the name of the image to be detected. T
 # Object detection using homography:
 
 ![final](./readme_images/final_1.jpg)
+![final](./readme_images/final_3.png)
 ![final](./readme_images/final_2.jpg)
 
