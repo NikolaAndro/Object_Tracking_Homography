@@ -1,3 +1,8 @@
+''' 
+Programmer: Nikola Andric
+Last Eddited: Feb 21. 2022
+Email: nikolazeljkoandric@gmail.com
+'''
 from selectors import DefaultSelector
 import sys
 import cv2
@@ -13,14 +18,17 @@ img = cv2.imread("images/"+img_name, cv2.IMREAD_GRAYSCALE)
 cap = cv2.VideoCapture(0)
 
 #track the features of the image
+# use sift algorithm to detect the features on the images
 sift_algorithm = cv2.xfeatures2d.SIFT_create()
+
+#create keypoints and descriptors of the image
 key_points_image, descriptors_image = sift_algorithm.detectAndCompute(img, None)
 
 # draw the keypoints on the image
 #img = cv2.drawKeypoints(img, key_points_image, img)
 
 # Let's see what key points of the original image are present on the image of the video
-# feature matching
+# feature matching between video stream and the static image (usinig flann algorithm to match the features since it is faster than ORB match detector)
 index_params = dict(algorithm = 0, trees = 5)
 search_params = dict()
 
@@ -48,7 +56,7 @@ while True:
         # the smaller the distance the better
         if m.distance < 0.5*n.distance:
             good_matches.append(m)
-
+            
     #draw the matches between the keypoints
     #img3 = cv2.drawMatches(img, key_points_image, gray_frame, key_points_gray_frame, good_matches, gray_frame)
 
@@ -60,7 +68,7 @@ while True:
     if len(good_matches) > 10:
         query_pts = np.float32([key_points_image[m.queryIdx].pt for m in good_matches]).reshape(-1, 1, 2)
         train_pts = np.float32([key_points_gray_frame[m.trainIdx].pt for m in good_matches]).reshape(-1, 1, 2)
-        # using RANSAC algorithm to find the homography
+        # using RANSAC algorithm to find the homography with outliers being removed.
         matrix, mask = cv2.findHomography(query_pts, train_pts, cv2.RANSAC, 5.0)
         # convert the mask to a list
         matches_mask = mask.ravel().tolist()
