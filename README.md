@@ -9,6 +9,8 @@ In this project, we will:
 
 # How to run
 
+Instead of Radovan.jpg, use another image of your object that you are trying to track.
+
 $python3 tracker.py Radovan.jpg
 
 As a second commandline argument provide the name of the image to be detected. The image should be stored in **images** folder.
