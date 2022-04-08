@@ -79,6 +79,7 @@ while True:
         pts = np.float32([[0, 0], [0, height], [width, height], [width, 0]]).reshape(-1, 1, 2)
         dst = cv2.perspectiveTransform(pts, matrix) 
 
+        # draw the shape around the object
         homography = cv2.polylines(frame, [np.int32(dst)], True, (0, 255, 0), 3)
         cv2.imshow("Homography", homography)
     else:
